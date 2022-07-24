@@ -3,22 +3,23 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
-import PropertyScreen from '../../pages/property-screen/property-screen';
+import Room from '../../pages/Room/room-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
+import { Place } from '../../types/places';
 
 type AppScreenProps = {
-  offersNumber: number;
+  places: Place[];
 }
 
-function App({ offersNumber }: AppScreenProps): JSX.Element {
+function App({ places }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route path={AppRoute.Main}>
           <Route
             index
-            element={<MainScreen offersNumber={offersNumber} />}
+            element={<MainScreen places={places} />}
           />
           <Route
             path={AppRoute.Login}
@@ -28,13 +29,13 @@ function App({ offersNumber }: AppScreenProps): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <FavoritesScreen />
+                <FavoritesScreen places={places} />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Room}
-            element={<PropertyScreen />}
+            element={<Room places={places} />}
           />
           <Route
             path="*"
